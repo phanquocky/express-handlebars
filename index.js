@@ -1,10 +1,24 @@
 const express = require('express')
 const handlebars = require('express-handlebars')
+const { emotions } = require('./data');
 
 const app = express()
 
+app.set('port', process.env.PORT || 3000);
+app.use(express.static(__dirname + '/html'));
+app.engine('hbs', handlebars.engine({
+    layoutsDir: __dirname + '/views/layouts',
+    defaultLayout: 'layout',
+    extname: 'hbs'
+}));
+app.set('view engine', 'hbs');
 
-app.set('port', process.env.PORT || 5000)
+app.get('/', (request, response) => {
+    response.render('index');
+});
+
+app.use('/task1.htm', require('./routes/task1Route'));
+
 app.listen(app.get('port'), () => {
     console.log(`server is running on port ${app.get('port')}` )
-})
+});
