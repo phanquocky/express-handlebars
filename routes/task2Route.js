@@ -11,7 +11,8 @@ const JARS_PERCENT = {
 };
 
 router.get('/', (request, response) => {
-    const salary = request.query.salary;
+    let salary = request.query.salary;
+    if (! salary) salary = 0;
     let jarsMoney = {...JARS_PERCENT};
     for (let property in jarsMoney) {
         const money = jarsMoney[property] * salary;
